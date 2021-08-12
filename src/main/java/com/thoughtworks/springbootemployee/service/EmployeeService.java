@@ -45,6 +45,7 @@ public class EmployeeService {
         }
 
         return updatedEmployee;
+
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeToBeUpdated) {
