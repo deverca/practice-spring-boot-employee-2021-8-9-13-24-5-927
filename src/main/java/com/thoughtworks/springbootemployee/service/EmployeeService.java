@@ -32,6 +32,7 @@ public class EmployeeService {
 
     public List<Employee> findEmployeesByGender(String gender) {
         return employeeRepository.findByGender(gender);
+
     }
 
     public void addEmployee(Employee employee) {
@@ -39,8 +40,31 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeToBeUpdated) {
-        return oldEmployeeRepository.updateEmployee(employeeId, employeeToBeUpdated);
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        Employee updatedEmployee = new Employee();
+        if (employee != null) {
+            updatedEmployee = updateEmployeeInformation(employee, employeeToBeUpdated);
 
+        }
+
+        return updatedEmployee;
+    }
+
+    private Employee updateEmployeeInformation(Employee employee, Employee employeeToBeUpdated) {
+        if (employeeToBeUpdated.getName() != null) {
+            employee.setName(employeeToBeUpdated.getName());
+
+        }
+        if (employeeToBeUpdated.getAge() != null) {
+            employee.setAge(employeeToBeUpdated.getAge());
+        }
+        if (employeeToBeUpdated.getGender() != null) {
+            employee.setGender(employeeToBeUpdated.getGender());
+        }
+        if (employeeToBeUpdated.getSalary() != null) {
+            employee.setSalary(employeeToBeUpdated.getSalary());
+        }
+        return employee;
     }
 
     public void deleteEmployee(Integer employeeId) {
