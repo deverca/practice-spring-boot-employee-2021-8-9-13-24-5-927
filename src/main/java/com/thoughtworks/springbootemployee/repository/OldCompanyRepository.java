@@ -9,28 +9,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class CompanyRepository {
+public class OldCompanyRepository {
 
     private List<Company> companies = new ArrayList<>();
     private OldEmployeeRepository oldEmployeeRepository = new OldEmployeeRepository();
 
-    public CompanyRepository() {
-        List<Employee> employees = oldEmployeeRepository.getEmployees();
-        List<Employee> abcEmployees = new ArrayList<>();
-        abcEmployees.add(employees.get(0));
-        abcEmployees.add(employees.get(1));
-        abcEmployees.add(employees.get(2));
-        abcEmployees.add(employees.get(3));
-        abcEmployees.add(employees.get(4));
-
-        List<Employee> defEmployees = new ArrayList<>();
-        defEmployees.add(employees.get(5));
-        defEmployees.add(employees.get(6));
-
-        companies.add(new Company(1, "ABC", abcEmployees.size(), abcEmployees));
-        companies.add(new Company(2, "DEF", defEmployees.size(), defEmployees));
-
-    }
+//    public OldCompanyRepository() {
+//        List<Employee> employees = oldEmployeeRepository.getEmployees();
+//        List<Employee> abcEmployees = new ArrayList<>();
+//        abcEmployees.add(employees.get(0));
+//        abcEmployees.add(employees.get(1));
+//        abcEmployees.add(employees.get(2));
+//        abcEmployees.add(employees.get(3));
+//        abcEmployees.add(employees.get(4));
+//
+//        List<Employee> defEmployees = new ArrayList<>();
+//        defEmployees.add(employees.get(5));
+//        defEmployees.add(employees.get(6));
+//
+//        companies.add(new Company(1, "ABC", abcEmployees.size(), abcEmployees));
+//        companies.add(new Company(2, "DEF", defEmployees.size(), defEmployees));
+//
+//    }
 
     public List<Company> getAllCompanies() {
         return companies;
@@ -56,13 +56,13 @@ public class CompanyRepository {
     }
 
     public void addCompany(Company company) {
-        Company newCompany = new Company();
-        newCompany.setCompanyId(companies.size() + 1);
-        newCompany.setCompanyName(company.getCompanyName());
-        newCompany.setEmployees(company.getEmployees());
-        newCompany.setEmployeesNumber(company.getEmployeesNumber());
-
-        companies.add(newCompany);
+////        Company newCompany = new Company();
+//        newCompany.setCompanyId(companies.size() + 1);
+//        newCompany.setCompanyName(company.getCompanyName());
+//        newCompany.setEmployees(company.getEmployees());
+//        newCompany.setEmployeesNumber(company.getEmployeesNumber());
+//
+//        companies.add(newCompany);
     }
 
     public Company updateCompany(Integer companyId, Company companyToUpdate) {

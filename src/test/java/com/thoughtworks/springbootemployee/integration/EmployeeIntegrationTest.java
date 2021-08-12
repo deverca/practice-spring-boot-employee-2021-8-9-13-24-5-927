@@ -1,4 +1,5 @@
 package com.thoughtworks.springbootemployee.integration;
+
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfig
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class EmployeeIntegrationTest {
@@ -17,10 +20,15 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeeRepository employeeRepository;
+
     @Test
     void should_return_all_employees_when_call_get_all_employees_api() throws Exception {
         //given
-        final Employee employee = new Employee(3, "Ian", 12, "female", 2000);
+        final Employee employee = new Employee();
+        employee.setName("Ian");
+        employee.setAge(12);
+        employee.setGender("female");
+        employee.setSalary(2000);
         employeeRepository.save(employee);
         //when
         //then

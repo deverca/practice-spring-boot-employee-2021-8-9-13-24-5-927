@@ -1,11 +1,16 @@
 package com.thoughtworks.springbootemployee.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer companyId;
     private String companyName;
     private Integer employeesNumber;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company(Integer companyId, String companyName, Integer employeesNumber, List<Employee> employees) {
@@ -16,7 +21,9 @@ public class Company {
     }
 
 
-    public Company(){}
+    public Company() {
+    }
+
     public Integer getCompanyId() {
         return companyId;
     }
@@ -48,4 +55,6 @@ public class Company {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+
+
 }

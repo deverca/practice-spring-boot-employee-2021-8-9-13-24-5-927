@@ -14,13 +14,13 @@ public class OldEmployeeRepository {
     private List<Employee> employees = new ArrayList<>();
 
     public OldEmployeeRepository() {
-        employees.add(new Employee(1, "Carms", 21, "Female", 1000));
-        employees.add(new Employee(2, "Jan", 12, "Male", 2000));
-        employees.add(new Employee(3, "Ian", 12, "Female", 2000));
-        employees.add(new Employee(4, "Red", 12, "Male", 20300));
-        employees.add(new Employee(5, "Adomar", 12, "Male", 23000));
-        employees.add(new Employee(6, "DM", 12, "Male", 25000));
-        employees.add(new Employee(7, "Rhea", 12, "Female", 10000));
+//        employees.add(new Employee(1, "Carms", 21, "Female", 1000, 1));
+//        employees.add(new Employee(2, "Jan", 12, "Male", 2000, 1));
+//        employees.add(new Employee(3, "Ian", 12, "Female", 2000, 1));
+//        employees.add(new Employee(4, "Red", 12, "Male", 20300, 1));
+//        employees.add(new Employee(5, "Adomar", 12, "Male", 23000, 1));
+//        employees.add(new Employee(6, "DM", 12, "Male", 25000, 1));
+//        employees.add(new Employee(7, "Rhea", 12, "Female", 10000, 1));
     }
 
     public List<Employee> getEmployees() {
@@ -49,12 +49,12 @@ public class OldEmployeeRepository {
     public List<Employee> findEmployeesByGender(String gender) {
         return employees.stream().filter(employee -> employee.getGender().equalsIgnoreCase(gender)).collect(Collectors.toList());
     }
-
-    public void addEmployee(Employee employee) {
-        Employee newEmployee = new Employee(employees.size() + 1, employee.getName(), employee.getAge(),
-                employee.getGender(), employee.getSalary());
-        employees.add(newEmployee);
-    }
+//
+//    public void addEmployee(Employee employee) {
+//        Employee newEmployee = new Employee(employees.size() + 1, employee.getName(), employee.getAge(),
+//                employee.getGender(), employee.getSalary());
+//        employees.add(newEmployee);
+//    }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeToBeUpdated) {
         return employees
