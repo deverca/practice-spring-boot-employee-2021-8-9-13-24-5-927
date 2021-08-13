@@ -24,17 +24,12 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_all_employees_when_call_get_all_employees_api() throws Exception {
         //given
-        final Employee employee = new Employee();
-        employee.setName("Ian");
-        employee.setAge(12);
-        employee.setGender("female");
-        employee.setSalary(2000);
+        final Employee employee = new Employee(1, "Ian", 12, "female", 2000);
         employeeRepository.save(employee);
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Ian"))
                 .andExpect(jsonPath("$[0].age").value(12))
                 .andExpect(jsonPath("$[0].gender").value("female"))
@@ -63,12 +58,7 @@ public class EmployeeIntegrationTest {
     @Test
     void should_update_employee_when_call_update_employee_api() throws Exception {
         //given
-        final Employee employee = new Employee();
-        employee.setId(1);
-        employee.setName("Ian");
-        employee.setAge(12);
-        employee.setGender("female");
-        employee.setSalary(2000);
+        final Employee employee = new Employee(1, "Ian", 12, "female", 2000);
         employeeRepository.save(employee);
         final Employee savedEmployee = employeeRepository.save(employee);
         String employeeWithNewInfo = " {\n" +
@@ -96,21 +86,11 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_all_employees_By_Gender_when_call_get_All_Employees_By_Gender_employees_api() throws Exception {
         //given
-        final Employee employee1 = new Employee();
-        employee1.setId(1);
-        employee1.setName("Cillian");
-        employee1.setGender("male");
-        employee1.setAge(50);
-        employee1.setSalary(2000);
+        final Employee employee1 = new Employee(1, "Cillian", 50, "male", 2000);
         Employee savedEmployee = employeeRepository.save(employee1);
 
 
-        final Employee employee2 = new Employee();
-        employee1.setId(2);
-        employee1.setName("Beth");
-        employee1.setGender("female");
-        employee1.setAge(20);
-        employee1.setSalary(2000);
+        final Employee employee2 = new Employee(2, "Beth", 20, "female", 20000);
         employeeRepository.save(employee2);
         //when
         //then
@@ -120,28 +100,18 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].name").value("Cillian"))
                 .andExpect(jsonPath("$[0].age").value(50))
                 .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value(2000))
-                .andExpect(jsonPath("$[0].id").isNumber());
+                .andExpect(jsonPath("$[0].salary").value(2000));
+
 
     }
 
     @Test
     void should_return_right_employee_when_call_getEmployeeById_api() throws Exception {
         //given
-        final Employee employee1 = new Employee();
-       employee1.setId(1);
-        employee1.setName("Cillian");
-        employee1.setGender("male");
-        employee1.setAge(50);
-        employee1.setSalary(2000);
+        final Employee employee1 = new Employee(1, "Cillian", 50, "male", 2000);
         Employee savedEmployee = employeeRepository.save(employee1);
 
-        final Employee employee2 = new Employee();
-        employee1.setId(2);
-        employee1.setName("Beth");
-        employee1.setGender("female");
-        employee1.setAge(20);
-        employee1.setSalary(2000);
+        final Employee employee2 = new Employee(2, "Beth", 20, "female", 2000);
         employeeRepository.save(employee2);
         //when
         //then
@@ -151,10 +121,30 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.name").value("Cillian"))
                 .andExpect(jsonPath("$.age").value(50))
                 .andExpect(jsonPath("$.gender").value("male"))
-                .andExpect(jsonPath("$.salary").value(2000))
-                .andExpect(jsonPath("$.id").isNumber());
+                .andExpect(jsonPath("$.salary").value(2000));
 
 
+    }
+
+    @Test
+    void should_return_right_employees_when_call_getEmployeesByPagination() throws Exception {
+        final Employee employee1 = new Employee(1, "Cillian", 50, "male", 2000);
+        Employee savedEmployee = employeeRepository.save(employee1);
+
+        final Employee employee2 = new Employee(2, "Beth", 20, "female", 2000);
+        employeeRepository.save(employee2);
+
+
+        //when
+        //then
+        Integer pageIndex = 2;
+        Integer pageSize = 1;
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees?pageIndex={pageIndex}&pageSize={pageSize}", pageIndex, pageSize))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Beth"))
+                .andExpect(jsonPath("$[0].age").value(20))
+                .andExpect(jsonPath("$[0].gender").value("female"))
+                .andExpect(jsonPath("$[0].salary").value(2000));
     }
 
 }
