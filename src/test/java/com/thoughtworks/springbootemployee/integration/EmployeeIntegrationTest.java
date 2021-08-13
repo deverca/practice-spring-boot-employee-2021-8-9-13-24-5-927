@@ -128,6 +128,7 @@ public class EmployeeIntegrationTest {
 
     @Test
     void should_return_right_employees_when_call_getEmployeesByPagination() throws Exception {
+        //given
         final Employee employee1 = new Employee(1, "Cillian", 50, "male", 2000);
         Employee savedEmployee = employeeRepository.save(employee1);
 
@@ -146,5 +147,19 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value("female"))
                 .andExpect(jsonPath("$[0].salary").value(2000));
     }
+
+    @Test
+    void should_delete_employee_when_call_deleteEmployee_api() throws Exception {
+        //given
+        final Employee employee1 = new Employee(1, "Cillian", 50, "male", 2000);
+        Employee savedEmployee = employeeRepository.save(employee1);
+        //when
+        //then
+        int employeeId = 1;
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{employeeId}", employeeId))
+                .andExpect(status().isOk());
+
+    }
+
 
 }
