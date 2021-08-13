@@ -48,8 +48,9 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return employeeService.addEmployee(employeeMapper.toEntity(employeeRequest));
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        return employeeMapper.toResponse(employeeService.addEmployee(employeeMapper.toEntity(employeeRequest)));
+        //return employeeService.addEmployee(employeeMapper.toEntity(employeeRequest));
 
     }
 
