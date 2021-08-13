@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.awt.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -125,6 +126,38 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value(2000))
                 .andExpect(jsonPath("$[0].id").isNumber());
+
+    }
+
+    @Test
+    void should_return_right_employee_when_call_getEmployeeById_api() throws Exception {
+        //given
+        Employee employee1 = new Employee();
+        employee1.setId(1);
+        employee1.setName("Cillian");
+        employee1.setGender("male");
+        employee1.setAge(50);
+        employee1.setSalary(2000);
+        Employee savedEmployee = employeeRepository.save(employee1);
+
+        Employee employee2 = new Employee();
+        employee1.setId(2);
+        employee1.setName("Beth");
+        employee1.setGender("female");
+        employee1.setAge(20);
+        employee1.setSalary(2000);
+        employeeRepository.save(employee2);
+        //when
+        //then
+        Integer id = 1;
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Cillian"))
+                .andExpect(jsonPath("$.age").value(50))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value(2000))
+                .andExpect(jsonPath("$.id").isNumber());
+
 
     }
 
