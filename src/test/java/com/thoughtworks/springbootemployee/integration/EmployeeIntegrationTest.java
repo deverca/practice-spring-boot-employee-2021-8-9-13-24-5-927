@@ -56,7 +56,11 @@ public class EmployeeIntegrationTest {
         //when
         mockMvc.perform(MockMvcRequestBuilders.post("/employees")
                 .contentType(MediaType.APPLICATION_JSON).content(employee))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.name").value("carmela"))
+        .andExpect(jsonPath("$.age").value(21))
+        .andExpect(jsonPath("$.gender").value("female"))
+        .andExpect(jsonPath("$.salary").value(212121));
 
 
     }
