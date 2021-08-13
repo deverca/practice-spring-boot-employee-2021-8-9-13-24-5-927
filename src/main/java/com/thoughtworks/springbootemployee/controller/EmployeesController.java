@@ -29,19 +29,16 @@ public class EmployeesController {
 
     @GetMapping(path = "/{employeeId}")
     public EmployeeResponse findById(@PathVariable Integer employeeId) {
-        // return employeeService.findEmployeeById(employeeId);
         return employeeMapper.toResponse(employeeService.findEmployeeById(employeeId));
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
     public List<Employee> findEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
-
         return employeeService.findEmployeesByPagination(pageIndex, pageSize);
     }
 
     @GetMapping(params = "gender")
     public List<Employee> findEmployeesByGender(@RequestParam(required = true) String gender) {
-
         return employeeService.findEmployeesByGender(gender);
     }
 
@@ -49,21 +46,16 @@ public class EmployeesController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
         return employeeMapper.toResponse(employeeService.addEmployee(employeeMapper.toEntity(employeeRequest)));
-        //return employeeService.addEmployee(employeeMapper.toEntity(employeeRequest));
-
     }
 
     @PutMapping(path = "/{employeeId}")
     public EmployeeResponse updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
-
         return employeeMapper.toResponse(employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest)));
-        //  return employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest));
     }
 
     @DeleteMapping("/{employeeId}")
     public void deleteEmployee(@PathVariable Integer employeeId) {
         employeeService.deleteEmployee(employeeId);
-
     }
 
 
