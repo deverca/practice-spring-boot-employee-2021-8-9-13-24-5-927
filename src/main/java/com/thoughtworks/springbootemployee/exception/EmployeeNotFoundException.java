@@ -7,8 +7,4 @@ public class EmployeeNotFoundException extends RuntimeException {
         super(message);
     }
 
-//    @Override
-//    public String getMessage() {
-//        return message;
-//    }
 }

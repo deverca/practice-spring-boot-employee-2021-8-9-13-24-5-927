@@ -43,7 +43,6 @@ public class CompanyService {
     }
 
     public void addCompany(Company company) {
-        // oldCompanyRepository.addCompany(company);
         companyRepository.save(company);
 
     }
