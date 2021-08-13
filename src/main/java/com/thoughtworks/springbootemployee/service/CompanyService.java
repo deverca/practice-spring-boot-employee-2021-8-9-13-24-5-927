@@ -28,8 +28,6 @@ public class CompanyService {
 
     public Company getCompanyById(Integer companyId) {
         return companyRepository.findById(companyId).orElse(null);
-
-
     }
 
     public List<Employee> getEmployeesByCompanyId(Integer companyId) {

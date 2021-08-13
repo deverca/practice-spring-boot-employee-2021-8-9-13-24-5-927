@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeService {
@@ -20,7 +22,9 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(Integer employeeId) {
-        return employeeRepository.findById(employeeId).orElse(null);
+        return employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found."));
+
     }
 
     public List<Employee> findEmployeesByPagination(Integer pageIndex, Integer pageSize) {
@@ -38,14 +42,9 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeToBeUpdated) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
-        Employee updatedEmployee = new Employee();
-        if (employee != null) {
-            updatedEmployee = updateEmployeeInformation(employee, employeeToBeUpdated);
-
-        }
-
-        return updatedEmployee;
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found"));
+        return employeeRepository.save(Objects.requireNonNull(updateEmployeeInformation(employee,
+                employeeToBeUpdated)));
 
     }
 
@@ -63,6 +62,7 @@ public class EmployeeService {
         if (employeeToBeUpdated.getSalary() != null) {
             employee.setSalary(employeeToBeUpdated.getSalary());
         }
+        //  employeeRepository.save(employee);
         return employee;
     }
 

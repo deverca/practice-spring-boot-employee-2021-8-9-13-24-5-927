@@ -5,14 +5,10 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import java.awt.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,7 +96,7 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_all_employees_By_Gender_when_call_get_All_Employees_By_Gender_employees_api() throws Exception {
         //given
-        Employee employee1 = new Employee();
+        final Employee employee1 = new Employee();
         employee1.setId(1);
         employee1.setName("Cillian");
         employee1.setGender("male");
@@ -109,7 +105,7 @@ public class EmployeeIntegrationTest {
         Employee savedEmployee = employeeRepository.save(employee1);
 
 
-        Employee employee2 = new Employee();
+        final Employee employee2 = new Employee();
         employee1.setId(2);
         employee1.setName("Beth");
         employee1.setGender("female");
@@ -132,15 +128,15 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_right_employee_when_call_getEmployeeById_api() throws Exception {
         //given
-        Employee employee1 = new Employee();
-        employee1.setId(1);
+        final Employee employee1 = new Employee();
+       employee1.setId(1);
         employee1.setName("Cillian");
         employee1.setGender("male");
         employee1.setAge(50);
         employee1.setSalary(2000);
         Employee savedEmployee = employeeRepository.save(employee1);
 
-        Employee employee2 = new Employee();
+        final Employee employee2 = new Employee();
         employee1.setId(2);
         employee1.setName("Beth");
         employee1.setGender("female");
@@ -149,7 +145,7 @@ public class EmployeeIntegrationTest {
         employeeRepository.save(employee2);
         //when
         //then
-        Integer id = 1;
+        Integer id = savedEmployee.getId();
         mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Cillian"))
