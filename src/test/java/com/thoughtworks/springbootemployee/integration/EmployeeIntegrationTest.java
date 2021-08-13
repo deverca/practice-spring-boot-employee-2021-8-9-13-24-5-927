@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,11 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @AfterEach
+    void cleanUp() {
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void should_return_all_employees_when_call_get_all_employees_api() throws Exception {
@@ -155,7 +161,7 @@ public class EmployeeIntegrationTest {
         Employee savedEmployee = employeeRepository.save(employee1);
         //when
         //then
-        int employeeId = 1;
+        int employeeId = savedEmployee.getId();
         mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{employeeId}", employeeId))
                 .andExpect(status().isOk());
 
