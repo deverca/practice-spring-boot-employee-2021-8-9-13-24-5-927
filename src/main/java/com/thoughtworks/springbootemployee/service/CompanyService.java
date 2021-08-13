@@ -23,7 +23,7 @@ public class CompanyService {
     EmployeeRepository employeeRepository;
 
     public List<Company> getAllCompanies() {
-        return oldCompanyRepository.getAllCompanies();
+        return companyRepository.findAll();
     }
 
     public Company getCompanyById(Integer companyId) {
@@ -43,7 +43,8 @@ public class CompanyService {
     }
 
     public void addCompany(Company company) {
-        oldCompanyRepository.addCompany(company);
+        // oldCompanyRepository.addCompany(company);
+        companyRepository.save(company);
 
     }
 

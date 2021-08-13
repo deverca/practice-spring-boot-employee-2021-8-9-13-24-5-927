@@ -22,7 +22,6 @@ public class EmployeesController {
     private EmployeeMapper employeeMapper;
 
 
-
     @GetMapping
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
@@ -55,9 +54,10 @@ public class EmployeesController {
     }
 
     @PutMapping(path = "/{employeeId}")
-    public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
+    public EmployeeResponse updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
 
-        return employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest));
+        return employeeMapper.toResponse(employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest)));
+        //  return employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest));
     }
 
     @DeleteMapping("/{employeeId}")
