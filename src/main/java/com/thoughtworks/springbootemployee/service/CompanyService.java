@@ -41,10 +41,10 @@ public class CompanyService {
 
     }
 
-
     public Company updateCompany(Integer companyId, Company companyToUpdate) {
 
-        Company company = companyRepository.findById(companyId).orElse(null);
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(()->new CompanyNotFoundException("Company does not exist."));
         return companyRepository.save(Objects.requireNonNull(updateCompanyInformation(company, companyToUpdate)));
     }
 
@@ -54,7 +54,6 @@ public class CompanyService {
         }
         if (companyToUpdate.getEmployees() != null) {
             company.setEmployees(companyToUpdate.getEmployees());
-            // company.setEmployeesNumber(companyToUpdate.getEmployees().size());
         }
         return company;
     }
