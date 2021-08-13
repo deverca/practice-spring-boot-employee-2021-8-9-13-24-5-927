@@ -3,24 +3,17 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import com.thoughtworks.springbootemployee.repository.OldCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 public class CompanyService {
-
-    @Autowired
-    OldCompanyRepository oldCompanyRepository;
     @Autowired
     CompanyRepository companyRepository;
-
-    @Autowired
-    EmployeeRepository employeeRepository;
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
@@ -39,7 +32,7 @@ public class CompanyService {
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
-        return oldCompanyRepository.getCompaniesByPagination(pageIndex, pageSize);
+        return companyRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
     public void addCompany(Company company) {
@@ -50,10 +43,23 @@ public class CompanyService {
 
     public Company updateCompany(Integer companyId, Company companyToUpdate) {
 
-        return oldCompanyRepository.updateCompany(companyId, companyToUpdate);
+        Company company = companyRepository.findById(companyId).orElse(null);
+        // return oldCompanyRepository.updateCompany(companyId, companyToUpdate);
+        return companyRepository.save(Objects.requireNonNull(updateCompanyInformation(company, companyToUpdate)));
     }
 
-    public List<Company> deleteCompany(Integer companyId) {
-        return oldCompanyRepository.deleteCompany(companyId);
+    private Company updateCompanyInformation(Company company, Company companyToUpdate) {
+        if (companyToUpdate.getCompany_name() != null) {
+            company.setCompany_name(companyToUpdate.getCompany_name());
+        }
+        if (companyToUpdate.getEmployees() != null) {
+            company.setEmployees(companyToUpdate.getEmployees());
+           // company.setEmployeesNumber(companyToUpdate.getEmployees().size());
+        }
+        return company;
+    }
+
+    public void deleteCompany(Integer companyId) {
+        companyRepository.deleteById(companyId);
     }
 }

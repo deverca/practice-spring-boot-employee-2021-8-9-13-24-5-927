@@ -26,7 +26,7 @@ public class CompaniesController {
     @GetMapping("/{companyId}")
     public Company getCompanyById(@PathVariable Integer companyId) {
 
-            return companyService.getCompanyById(companyId);
+        return companyService.getCompanyById(companyId);
 
 
     }
@@ -57,8 +57,8 @@ public class CompaniesController {
     }
 
     @DeleteMapping("/{companyId}")
-    public List<Company> deleteCompany(@PathVariable Integer companyId) {
-        return companyService.deleteCompany(companyId);
+    public void deleteCompany(@PathVariable Integer companyId) {
+        companyService.deleteCompany(companyId);
     }
 
 }

@@ -62,6 +62,9 @@ public class EmployeeService {
         if (employeeToBeUpdated.getSalary() != null) {
             employee.setSalary(employeeToBeUpdated.getSalary());
         }
+        if (employeeToBeUpdated.getCompanyId() != null) {
+            employee.setCompanyId(employeeToBeUpdated.getCompanyId());
+        }
         return employee;
     }
 

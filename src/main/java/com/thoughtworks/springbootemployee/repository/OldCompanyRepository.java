@@ -38,7 +38,7 @@ public class OldCompanyRepository {
     }
 
     public Company getCompanyById(Integer companyId) {
-        return companies.stream().filter(company -> company.getCompanyId().equals(companyId)).findFirst().orElse(null);
+        return companies.stream().filter(company -> company.getId().equals(companyId)).findFirst().orElse(null);
     }
 
     public List<Employee> getEmployeesByCompanyId(Integer companyId) {
@@ -67,17 +67,17 @@ public class OldCompanyRepository {
 
     public Company updateCompany(Integer companyId, Company companyToUpdate) {
 
-        return companies.stream().filter(company -> company.getCompanyId().equals(companyId)).findFirst()
+        return companies.stream().filter(company -> company.getId().equals(companyId)).findFirst()
                 .map(company -> updateCompanyInformation(company, companyToUpdate)).orElse(null);
     }
 
     private Company updateCompanyInformation(Company company, Company companyToUpdate) {
-        if (companyToUpdate.getCompanyName() != null) {
-            company.setCompanyName(companyToUpdate.getCompanyName());
+        if (companyToUpdate.getCompany_name() != null) {
+            company.setCompany_name(companyToUpdate.getCompany_name());
         }
         if (companyToUpdate.getEmployees() != null) {
             company.setEmployees(companyToUpdate.getEmployees());
-            company.setEmployeesNumber(companyToUpdate.getEmployees().size());
+            //company.setEmployeesNumber(companyToUpdate.getEmployees().size());
         }
         return company;
     }
