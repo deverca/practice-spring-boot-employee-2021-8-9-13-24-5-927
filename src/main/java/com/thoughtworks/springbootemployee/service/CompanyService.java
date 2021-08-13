@@ -22,15 +22,14 @@ public class CompanyService {
 
     public Company getCompanyById(Integer companyId) {
         return companyRepository.findById(companyId)
-                .orElseThrow(()->new CompanyNotFoundException("Company does not exist."));
+                .orElseThrow(() -> new CompanyNotFoundException("Company does not exist."));
     }
 
     public List<Employee> getEmployeesByCompanyId(Integer companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        if (company != null) {
-            return company.getEmployees();
-        }
-        return null;
+        Company company = companyRepository.findById(companyId).
+                orElseThrow(() -> new CompanyNotFoundException("Company does not exist."));
+        return company.getEmployees();
+
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
@@ -55,7 +54,7 @@ public class CompanyService {
         }
         if (companyToUpdate.getEmployees() != null) {
             company.setEmployees(companyToUpdate.getEmployees());
-           // company.setEmployeesNumber(companyToUpdate.getEmployees().size());
+            // company.setEmployeesNumber(companyToUpdate.getEmployees().size());
         }
         return company;
     }
