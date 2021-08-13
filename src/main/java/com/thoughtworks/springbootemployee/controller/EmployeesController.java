@@ -1,6 +1,9 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.model.EmployeeRequest;
+import com.thoughtworks.springbootemployee.model.EmployeeResponse;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,10 @@ public class EmployeesController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
+
 
     @GetMapping
     public List<Employee> getAllEmployees() {
@@ -22,8 +29,9 @@ public class EmployeesController {
     }
 
     @GetMapping(path = "/{employeeId}")
-    public Employee findById(@PathVariable Integer employeeId) {
-        return employeeService.findEmployeeById(employeeId);
+    public EmployeeResponse findById(@PathVariable Integer employeeId) {
+        // return employeeService.findEmployeeById(employeeId);
+        return employeeMapper.toResponse(employeeService.findEmployeeById(employeeId));
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
@@ -40,15 +48,15 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody Employee employee) {
-      return  employeeService.addEmployee(employee);
+    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        return employeeService.addEmployee(employeeMapper.toEntity(employeeRequest));
 
     }
 
     @PutMapping(path = "/{employeeId}")
-    public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee employeeToBeUpdated) {
+    public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
 
-        return employeeService.updateEmployee(employeeId, employeeToBeUpdated);
+        return employeeService.updateEmployee(employeeId, employeeMapper.toEntity(employeeRequest));
     }
 
     @DeleteMapping("/{employeeId}")

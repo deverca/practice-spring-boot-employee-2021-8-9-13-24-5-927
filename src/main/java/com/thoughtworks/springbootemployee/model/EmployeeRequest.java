@@ -1,22 +1,14 @@
 package com.thoughtworks.springbootemployee.model;
 
-import javax.persistence.*;
-import java.util.Locale;
-
-@Entity
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class EmployeeRequest {
     private String name;
     private Integer age;
     private String gender;
     private Integer salary;
     private Integer companyId;
 
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
-        this.id = id;
+    public EmployeeRequest(String name, Integer age, String gender, Integer salary, Integer companyId) {
+
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -24,11 +16,7 @@ public class Employee {
         this.companyId = companyId;
     }
 
-    public Employee() {
-    }
-
-    public Integer getId() {
-        return id;
+    public EmployeeRequest() {
     }
 
     public String getName() {
@@ -46,11 +34,6 @@ public class Employee {
     public Integer getSalary() {
         return salary;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -60,7 +43,7 @@ public class Employee {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        this.gender = gender.toLowerCase();
     }
 
     public void setSalary(Integer salary) {
